@@ -1,0 +1,19 @@
+{
+  "name": "myApp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.17.2",
+    "cors": "~2.8.3",
+    "express": "~4.15.3",
+    "ngeohash": "^0.6.0",
+    "request": "^2.88.0",
+    "spotify-web-api-node": "^4.0.0"
+  },
+  "author": "myApp",
+  "license": "myApp"
+}

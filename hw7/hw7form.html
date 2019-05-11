@@ -1,0 +1,1444 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<style>
+
+		html {
+		  height: 100%;
+		  margin: 0;
+		  padding: 0;
+		}
+		#body{
+		  height: 100%;
+  		  margin: 0;
+  		  padding: 0;
+		}
+
+		@media only screen
+		and (min-device-width : 320px)
+		and (max-device-width : 480px) {
+			#firstTable{
+				width:80%;
+			}
+		}
+
+		.normal {
+			border:none;
+			background: none;
+			color:blue;
+		}
+
+		.progress-wrapper{
+			width: 40px;
+			height: 40px;
+			position: relative;
+			font-size: 20px;
+		}
+		.progress_label{
+			position: absolute;
+			line-height: 6em;
+			font-size:1em;
+			text-align: center;
+			color: black;
+			font-weight: 100;
+		}
+		#sortSelection, #categorySelection {
+			display: initial!important;
+		}
+		.screen1 {
+			animation: slideInLeft 0.05s;
+		}
+		/* .screen1 {
+			animation: slideOutLeft 0.5s;
+		} */
+		.screen2 {
+			animation: slideInRight 0.05s;
+		}
+		/* .screen2.ng-hide-add {
+			animation: slideOutRight 0.5s;
+		} */
+		.active{
+			display:block;
+		}
+		tr:hover{
+			background: lightgrey;
+		}
+
+	</style>
+	<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-aria.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.js"></script>
+<!-- Angular Material Library -->
+<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-messages.js"></script>
+<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-messages.js"></script>
+<!-- <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script> -->
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-touch.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.min.js"></script>
+
+
+<script src="http://momentjs.com/downloads/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-svg-round-progressbar/0.4.8/roundProgress.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.js"></script> -->
+<script type="text/javascript" async src="https://platform.twitter.com/widgets.js"></script>
+
+<!-- ############AngularJS Material works only with AngularJS 1.x.##################### -->
+<script>
+
+
+var keywordQuery  = '';
+
+(function () {
+	'use strict';
+	angular
+	.module('MyApp', ['ngMaterial', 'ngMessages', 'ngRoute', 'material.svgAssetsCache', 'angular-svg-round-progressbar',  'ngAnimate' ])
+	.controller('DemoCtrl', DemoCtrl).config(function($sceDelegateProvider){
+		$sceDelegateProvider.resourceUrlWhitelist([
+		// Allow same origin resource loads.
+		'self',
+		// Allow loading from outer templates domain.
+		'file:///home/skamalak/Documents/usc_study/web_tech/hw/hw7/soln/**',
+		'http://csci571-env.w3n729ir4i.us-east-1.elasticbeanstalk.com/**',
+		'http://csci571-env.w3n729ir4i.us-east-1.elasticbeanstalk.com/artistTable.html'
+	  ]);
+	});
+
+	function DemoCtrl ($timeout, $q, $log, $http, $scope) {
+		var self = this;
+		self.searchTextChange = searchTextChange;
+		self.selectedItemChange = selectedItemChange;
+		self.querySearch = querySearch;
+		self.makeArtistTable = makeArtistTable;
+		self.artistTeamImages = artistTeamImages;
+
+		var moveToLeft = false;
+		var results = {
+			values: []
+		};
+
+
+
+		function searchTextChange(text) {
+			keywordQuery = text;
+			$log.info('Text changed to ' + keywordQuery);
+		}
+
+		function selectedItemChange(item) {
+			console.log(item);
+			keywordQuery = item['name'];
+			$log.info('Item changed to ' + keywordQuery);
+		}
+
+		function querySearch (query) {
+			keywordQuery = query;
+			keywordQuery = keywordQuery.replace(/ /g,"%20");
+			results = {
+			values: []
+		};
+		$log.info('Text changed to ' + query);
+		console.log("entered");
+		console.log(query);
+
+		return $http.get('http://csci571-env.w3n729ir4i.us-east-1.elasticbeanstalk.com/suggest?',{
+
+		params: {
+			'apikey': 'ycieqKxDYckllhDLJLzg6ddfaaHOWAQ0',
+			'keyword': query
+		}
+		}).then(function(response,status){
+			var rdata = response.data._embedded.attractions;
+			console.log(rdata);
+			for (var i = 0; i < rdata.length; i++) {
+				results.values.push({name: rdata[i].name});
+			// console.log(results.values);
+			}
+				return results.values;
+			})
+		}
+
+
+		function artistTeamImages(artistTeamName, metadata={}){
+			$http.get('http://csci571-env.w3n729ir4i.us-east-1.elasticbeanstalk.com/googlePhotos?',{
+
+				params: {
+					'apikey': 'AIzaSyD9CX5zqluQig3fwBC1ZAWkmDuKCRYFCBM',
+					'searchExp': artistTeamName
+				}
+				}).then(function(response,status){
+					console.log("artistTeamImages")
+					console.log(response);
+					var res = response.data.items;
+					if (res.length==0){
+						document.getElementById("displayDiv").innerHTML = '<span style="height: 30px; margin-top: 55px; margin-left:20%; margin-right:20%; background: #f617073d; color: #5c1f0a;" class="row justify-content-center col-md-8">No records</span>'
+					}
+					else {
+						metadata['images'] = []
+						for(var i=0; i<res.length;i++){
+							if (i>=7){
+								break;
+							}
+							metadata['images'][i] = response.data.items[i].link;
+						}
+						metadata['teamName'] = artistTeamName;
+						$scope.artistResponse.push(metadata);
+					}
+
+
+				})
+		}
+
+		function makeArtistTable(val){
+			console.log("I reached artistTable :)");
+			$http.get('http://csci571-env.w3n729ir4i.us-east-1.elasticbeanstalk.com/spotify?',{
+
+				params: {
+					'artist': val.name,
+				}
+				}).then(function(response,status){
+
+					for(var i=0; i<response.data.artists.items.length; i++){
+						var metadata = {};
+						//console.log(response.data.artists.items[i].name)
+						if (val.name.toLowerCase() == (response.data.artists.items[i].name).toLowerCase()){
+							metadata['name'] = response.data.artists.items[i].name;
+							var str = response.data.artists.items[i].followers.total.toString();
+							var followers = ''
+							while (str.length > 3 ){
+								// console.log('str: ' + str);
+								// console.log(str.substring(str.length-3));
+								followers = str.substring(str.length-3) + ',' + followers;
+								str = str.substring(0,str.length-3);
+								//console.log('followers: ', followers);
+							}
+							followers = str + ',' + followers;
+							followers = followers.substring(0,followers.length-1);
+							//console.log(followers);
+							metadata['followers'] = followers;
+							metadata['popularity'] = response.data.artists.items[i].popularity;
+							metadata['checkAt'] = response.data.artists.items[i].external_urls.spotify;
+							//$scope.artistResponse.push(metadata);
+							console.log(metadata);
+
+							break;
+
+						}
+						artistTeamImages(val.name, metadata);
+
+					}
+
+				})
+		}
+
+		$scope.artistNames = "";
+		$scope.flag = false;
+		//$scope.team = false;
+		$scope.artistResponse = [];
+
+		$scope.retrieveArtist = function(){
+			console.log($scope.flag);
+			$scope.artistResponse = [];
+			console.log("from COntroller");
+
+
+			angular.forEach($scope.artistNames, function(val, key){
+				if($scope.flag){
+					$scope.team = false;
+					self.makeArtistTable(val)
+				}
+				else{
+					$scope.team = true;
+					// $scope.flag = false;
+
+					self.artistTeamImages(val.name);
+				}
+
+			})
+			console.log($scope.artistResponse);
+		}
+
+	}
+
+})();
+
+function removefromLocStorage(removeEvent){
+	console.log("removefromLocStorage");
+	console.log(removeEvent);
+	localStorage.removeItem(removeEvent);
+	console.log(localStorage);
+	toggleStylesFavs();
+}
+
+function toggleStylesFavs(){
+
+	document.getElementById('tabsandPills').style.display = 'none';
+
+
+	$(document.getElementById("favorites")).addClass('btn btn-primary');
+	$(document.getElementById("favorites")).removeClass('normal');
+	$(document.getElementById("results")).removeClass('btn btn-primary');
+	$(document.getElementById("results")).addClass('normal');
+
+
+	var tbl = '';
+	tbl += '<div class="text-center" style="margin-top:20px; margin-left:800px" disabled><button id="details" class="btn btn-light" onclick="getEventDetails(\''+JSON.parse(localStorage.getItem('mostRecentLink')).data+'\')">Details ></button></div>'
+	tbl += '<table id="firstTable" border="1" align="center" style="border-left: 0px white; border-right: 0px white; border-bottom: 5px lightgrey; border-top: 5px lightgrey; border-collapse: collapse; margin-top:20px">';
+
+	//console.log(tdata);
+
+	tbl += '<tr><th>#</th><th style="font-style:normal;">Date</th><th style="font-style:normal;">Event</th><th style="font-style:normal;">Category</th><th style="font-style:normal;">Venue Info</th><th style="font-style:normal;">Favourite</th></tr>';
+	//console.log(typeof(localStorage));
+	var stars = localStorage;
+	//console.log(stars.keys);
+	console.log(stars.length)
+	for (var i=0; i< stars.length; i++) {
+		console.log(stars.getItem(stars.key(i)));
+		var checkMostrecentLink = '';
+		var cur_event = JSON.parse(stars.getItem(stars.key(i)));
+		console.log("cur event: " + cur_event);
+		if (cur_event.type == "favEvent"){
+			console.log("tyep matched");
+			tbl += '<tr>';
+			tbl += '<td>';
+			tbl += (i+1).toString();
+			tbl += '</td>';
+
+			tbl += '<td style="width:115px; padding: 10px; align=center; font-style:normal;">';
+			tbl += cur_event.date;
+			tbl += '</td>';
+
+			/////////////////////////////////////
+
+			var date = cur_event.date;
+			var eventId = cur_event.eventId;
+			var venueName = cur_event.venue;
+			var eventsName = cur_event.event_name;
+			var category = cur_event.category;
+			var id = i;
+			var flag = false;
+			venueName = venueName.replace(/ /g,"%20");
+			eventsName = eventsName.replace(/ /g,"#");
+			tooltip_text = eventsName;
+
+			tbl += '<td ng-controller="DemoCtrl as ctrl"  style="padding: 15px; font-style:normal;"><a href="#" rel="tooltip" class="venueLink" ng-click="goto(1)" data-toggle="tooltip" title="'+ cur_event.event_name + '" onclick=getEventDetails("'+eventId+','+ venueName +','+eventsName+','+category+','+ date+','+id+','+true+'")>';
+			var dispEvent = '';
+			if(tooltip_text.length >= 35){
+				console.log("inside");
+				var ind = tooltip_text.indexOf(" ", 30);
+				console.log(ind);
+				dispEvent = tooltip_text.slice(0, ind);
+				dispEvent += ' ...'
+				console.log(dispEvent);
+				tbl += dispEvent;
+
+			}
+			else{
+				tbl += tooltip_text;
+			}
+
+			/////////////////////////////////////
+
+			tbl += '<td style="width:215px; padding: 15px; font-style:normal;">';
+			tbl += cur_event.category;
+			tbl += '</td>';
+
+			tbl += '<td style="padding: 15px; font-style:normal;" >';
+			tbl += cur_event.venue;
+			tbl += '</td>';
+
+			tbl += '<td style= "padding: 10px; align=center;"><button><i id="trash" onclick="removefromLocStorage(\''+cur_event.event_name+'\')" class="material-icons">delete</i></button></td>'
+			tbl += '</tr>';
+		}
+
+
+	}
+
+	tbl += '</table>';
+	console.log(tbl);
+	document.getElementById("displayDiv").innerHTML = tbl;
+
+}
+function toggleStylesResults(){
+
+	// $(document.getElementById("results")).toggleClass('btn btn-primary normal');
+	// $(document.getElementById("favorites")).toggleClass('normal btn btn-primary');
+	$(document.getElementById("results")).addClass('btn btn-primary');
+	$(document.getElementById("results")).removeClass('normal');
+	$(document.getElementById("favorites")).removeClass('btn btn-primary');
+	$(document.getElementById("favorites")).addClass('normal');
+
+	getEvent(false);
+
+}
+
+
+</script>
+</head>
+<body id="body" style="padding-top:15px" ng-app="MyApp" ng-controller = "DemoCtrl as ctrl" ng-cloak>
+<!-- FORM -->
+	<div class="container rounded" style="padding: 35px;border:1px;background-color:#faf9fa;">
+		<form style="border:1px; background-color:#faf9fa;" id="detailsForm" onsubmit="return false">
+		<!-- ng-submit="$event.preventDefault()" -->
+		<div style="text-align: center; font-size: 20px; margin-bottom:15px">Entertainment Event Ticket Search</div>
+		<div class="form-group row">
+			<label class="col-md-2" for="keyword">Keyword <span style="color:red">*</span></label>
+
+			<div  layout="column"  class="autocompletedemoBasicUsage col-md-10" >
+				<md-autocomplete
+					md-hide-clear-button = true
+					md-no-cache=true
+					md-autoselect=true
+					placeholder="Enter Artist, Team or Event Name (eg. Lakers)"
+					md-items="item in ctrl.querySearch(ctrl.searchText)"
+					md-item-text="item.name"
+					md-min-length="1"
+					md-search-text="ctrl.searchText"
+					md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+					md-selected-item-change="ctrl.selectedItemChange(item)"
+					md-selected-item="ctrl.selectedItem">
+					<md-item-template>
+					<span class="films-title">
+					<span md-highlight-flags="^i" md-highlight-text="searchText">
+					  {{item.name}}
+					</span>
+					</span>
+					</md-item-template>
+
+				</md-autocomplete>
+				<span id="errorSpan" style="color:red; display:none;" class="help-block">Please enter a keyword</span>
+			</div>
+
+
+		</div>
+		<div class="form-group row">
+			<div class="col-md-2">
+				<label for="select">Category</label>
+			</div>
+			<div class="col-md-10">
+				<select id="select" class="form-control col-md-3">
+					<option selected value="all">All</option>
+					<option value="music">Music</option>
+					<option value="sports">Sports</option>
+					<option value="arts">Arts & Theatre</option>
+					<option value="films">Film</option>
+					<option value="miscellaneous">Miscellaneous</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="distance" class="col-sm-2 col-form-label">Distance</label>
+			<div class="form-inline col-md-8">
+			<input style="margin-right:20px;" type="text" class="form-control col-md-3" id="distance" value=10 placeholder=10>
+			<select class="custom-select col-md-3" id="dist_units">
+				<option selected value="miles">Miles</option>
+				<option value="kilometers">Kilometers</option>
+			</select>
+			</div>
+		</div>
+		<fieldset class="form-group">
+			<div class="row">
+				<legend class="col-form-label col-sm-2 pt-0">From<span style="color:red"> *</span></legend>
+				<div class="col-sm-10">
+				<div class="form-check">
+				<input class="form-check-input" type="radio" name="location" id="cur_loc" value="option1" checked>
+				<label class="form-check-label" for="cur_loc">
+				Current location
+				</label>
+				</div>
+				<div class="form-check">
+				<input class="form-check-input" type="radio" name="location" id="other_loc" value="option2">
+				<label class="form-check-label" for="other_loc">
+				Other. Please specify
+				</label>
+				</div>
+				</div>
+				<div class="col-sm-12 row">
+				<div class="col-md-2"></div>
+				<input type="text" class="form-control col-md-6" id="other_loc_input" disabled>
+				<span class="col-md-8" id="errorSpanInput" style="color:red; display:none; margin-left:15%" class="help-block">Please enter a keyword</span>
+				</div>
+			</div>
+		</fieldset>
+		<div class="form-group row">
+			<div class="col-sm-10">
+				<button type="submit" id="search_field" class="btn btn-primary" onclick="showPB();getEvent(true)"  disabled>
+				<i class="material-icons">search</i> Search
+				</button>
+				<button type="button" id="clear" onclick="clearAll()" class="btn btn-primary">
+				<i class="material-icons">clear_all</i> Clear
+				</button>
+			</div>
+		</div>
+		</form>
+	</div>
+	<div class="progress">
+		<div id="pb" style="display:none" class="progress-bar progress-bar-striped" role="progressbar" style="width: 45%" aria-valuemin="0" aria-valuemax="60" ></div>
+	</div>
+	<div ng-controller="DemoCtrl as ctrl" class="text-center" style="margin-top:20px">
+		<button id="results" class="btn btn-primary"  onclick=toggleStylesResults()> Results </button>
+		<button id="favorites" class="normal" onclick=toggleStylesFavs()>Favorites</button>
+	</div>
+	<div id="tabsandPills" style="display:none" ng-style="screen2Style" class="screen2 animated active" >
+		<h3 style="text-align:center; margin-top:40px;"><span id="fillEventsName"></span></h3>
+		<div class="container">
+			<button type="button" class="btn btn-default" onclick="favorResult()">< List</button>
+			<div style="float:right">
+				<a id="twitterLink" target="_blank"><img src="http://csci571.com/hw/hw8/Images/Twitter.png" style="width:40px; margin-top:-8px"></img></a>
+				<button><i id="setSecondStar" class="material-icons" onclick="setSecondStarStorage()">star_border</i></button>
+			</div>
+		</div>
+		<div id="music"></div>
+		<div id="buttons"></div>
+		<div class="container rounded">
+			<ul class="nav nav-tabs justify-content-end container rounded" role="tablist">
+			<li class="nav-item"><a class="nav-link active" id="popEventDet" data-toggle="tab" href="#event" onclick=populateEventDetails()>Event</a></li>
+			<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#artist" ng-click="retrieveArtist()">Artist/Teams</a></li>
+			<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#venue" onclick=populateVenue(false)>Venue</a></li>
+			<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#upcoming" onclick=populateVenue(true)>Upcoming Events</a></li>
+			</ul>
+
+			<div class="tab-content">
+			<!-- Events Tab -->
+				<div id="event" class="container tab-pane active">
+				</div>
+
+				<!-- Artist Tab -->
+				<div id="artist" class="container tab-pane fade">
+					<div ng-if="artistResponse" ng-include src="'http://csci571-env.w3n729ir4i.us-east-1.elasticbeanstalk.com/artistTable.html'"></div>
+				</div>
+
+				<!-- Venue Details Tab -->
+				<div id="venue" class="container tab-pane fade">
+				</div>
+
+				<!-- Upcoming Events Tab -->
+				<div id="upcoming" class="container tab-pane fade">
+					<div id="sortDiv"></div>
+					<div id="sortedDiv"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <div ng-app="MyApp" id="extractString"></div> -->
+
+	<div id="displayDiv" class="container rounded" ng-style="screen1Style" class="screen1 animated active" ></div>
+    <div id="newDiv" style="position: absolute; height: 300px; width: 400px; display:none; "></div>
+	<!-- FORM-ENDS -->
+
+	<script src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDwF0qbAiBnIfYnzY7Rukw4tJHo23sIQIQ&callback"></script>
+    <script >
+
+
+
+        map = null;
+        marker = null;
+
+		// Get latitude, longitude from ip-api
+		var lat = 0;
+		var lon = 0;
+
+		$.ajax({
+				url: 'http://ip-api.com/json',
+				type: "get",
+				dataType: "json",
+
+				success: function(data, textStatus, jqXHR) {
+				lat = data["lat"]
+				lon = data["lon"]
+				console.log(lat);
+				console.log(lon);
+				document.getElementById('search_field').disabled = false;
+			}
+
+		});
+
+		//Tooltip condns and setting Default Lat Lng values
+		// TODO: Validation
+
+		function showPB(){
+			console.log("showPB");
+			document.getElementById("pb").style.display = 'block';
+		}
+
+
+		function clearAll(){
+			console.log("clearAll");
+			document.getElementById("displayDiv").innerHTML = "";
+			document.getElementById("distance").value = "";
+			document.getElementById("distance").placeholder = 10;
+			document.getElementById("input-0").value = "";
+			document.getElementById("input-0").placeholder = "Enter Artist, Team or Event Name (eg. Lakers)";
+			document.getElementById("cur_loc").checked = true;
+			document.getElementById("displayDiv").innerHTML = "";
+			document.getElementById("tabsandPills").style.display = "none";
+			document.getElementById("dist_units").selectedIndex = 0;
+			document.getElementById("select").selectedIndex = 0;
+			document.getElementById("other_loc_input").value = "";
+			document.getElementById("other_loc_input").disabled = true;
+
+		}
+
+		$(document).on('input','#input-0',function(event){
+			console.log("listening");
+			console.log(event.target.value.trim());
+			if(event.target.value == "" || event.target.value.trim() == ""){
+				event.target.style.border = "1px solid red";
+				document.getElementById("errorSpan").style.display = "block";
+				document.getElementById("search_field").disabled = true;
+			}
+			else{
+				event.target.style.border = "1px solid lightgrey	";
+				document.getElementById("errorSpan").style.display = "none";
+				document.getElementById("search_field").disabled = false;
+			}
+
+		})
+
+		$(document).on('input','#other_loc_input',function(event){
+			console.log("listening");
+			console.log(event.target.value.trim());
+			if(event.target.value == "" || event.target.value.trim() == ""){
+				event.target.style.border = "1px solid red";
+				document.getElementById("errorSpanInput").style.display = "block";
+				document.getElementById("search_field").disabled = true;
+			}
+			else{
+				event.target.style.border = "1px solid lightgrey";
+				document.getElementById("errorSpanInput").style.display = "none";
+				document.getElementById("search_field").disabled = false;
+			}
+
+		})
+
+		document.getElementById('other_loc').addEventListener('click', function() {
+			console.log("atleast im here!");
+			if(document.getElementById('other_loc').checked == true){
+				document.getElementById("other_loc_input").disabled = false;
+			}
+		})
+
+		document.getElementById('cur_loc').addEventListener('click', function() {
+			console.log("atleast im here again!");
+			if(document.getElementById('cur_loc').checked == true){
+				document.getElementById("other_loc_input").disabled = true;
+			}
+		})
+
+		function favorResult(){
+			console.log("favorResult");
+			console.log(JSON.parse(localStorage.getItem('mostRecentLink')).data.split(',')[6]);
+			if(JSON.parse(localStorage.getItem('mostRecentLink')).data.split(',')[6] == 'true'){
+				toggleStylesFavs();
+			}
+			else{
+				getEvent(false);
+			}
+		}
+
+
+		function setSecondStarStorage(){
+			console.log("setSecondStarStorage");
+
+			document.getElementById("setSecondStar").innerHTML = "star";
+			document.getElementById("setSecondStar").style.color = "yellow";
+
+			var secondStorage = JSON.parse(localStorage.getItem('mostRecentLink')).data
+			var dateData = secondStorage.split(',')[4];
+			var event_nameData = secondStorage.split(',')[2];
+			event_nameData = event_nameData.replace(/#/g,' ');
+			var categoryData = secondStorage.split(',')[3];
+			var venueData = secondStorage.split(',')[1];
+			var id = secondStorage.split(',')[0];
+			venueData = venueData.replace(/%20/g,' ')
+			var data = {type:"favEvent",date:dateData,event_name:event_nameData,category:categoryData,venue:venueData, eventId:id};
+			localStorage.setItem(event_nameData, JSON.stringify(data));
+		}
+
+		var artistFlag = false;
+		var artistNames = '';
+		function populateEventDetails(){
+			var tbl = '';
+			var data = '';
+			$.ajax({
+				url: 'http://csci571-env.w3n729ir4i.us-east-1.elasticbeanstalk.com/eventDetails?apikey=ycieqKxDYckllhDLJLzg6ddfaaHOWAQ0' + '&id=' + eventId,
+				type: "get",
+				dataType: "json",
+
+				success: function(data, textStatus, jqXHR) {
+					console.log("data: ");
+					console.log(data);
+					// data = eventdata;
+					var link = document.getElementById("twitterLink");
+					link.setAttribute("href", "https://twitter.com/intent/tweet?text=Check%20out%20" + document.getElementById("fillEventsName").innerHTML + "%20located%20at%20"+ data['_embedded']['venues'][0]['name'] +". Website:%20"+ data['url'] + "%20 %23CSCI571EventSearch");
+					tbl += '<table class="table table-striped">'
+
+					if(data['_embedded']['attractions'][0]['name']){
+						tbl += '<tr><td><b>Artist/Team(s)</b></td><td>'
+						for (var i=0; i< data['_embedded']['attractions'].length; i++) {
+							if (i==0){
+								tbl += data['_embedded']['attractions'][i]['name'] ;
+							}
+							else {
+								tbl += " | " + data['_embedded']['attractions'][i]['name'];
+							}
+						}
+						tbl += '</td></tr>';
+					}
+
+
+					artistNames = data['_embedded']['attractions'];
+					var scope = angular.element(document.getElementById("body")).scope();
+					scope.artistNames = artistNames;
+					scope.$apply();
+
+					if(data['_embedded']['venues'][0]['name']){
+						tbl += '<tr><td><b>Venue</b></td><td>';
+						tbl += data['_embedded']['venues'][0]['name'];
+						tbl += '</td></tr>';
+
+					}
+
+					if(['dates']['start']){
+						if(['dates']['start']['localDate'] && data['dates']['start']['localTime'] ){
+							tbl += '<tr><td><b>Time</b></td>';
+							var date = data['dates']['start']['localDate'];
+							var dateList = date.split("-");
+							date = dateList[1] + "/" + dateList[2] + "/" + dateList[0];
+							console.log(date);
+							var time = data['dates']['start']['localTime'];
+							var modDate = moment(date, "L").format("ll");
+							console.log(modDate);
+							var newDate = modDate + " " + time;
+							console.log(newDate);
+							tbl += '<td>' + newDate + '</td></tr>'
+						}
+					}
+
+
+
+					if(data['classifications'][0]['segment']['name'] && data['classifications'][0]['genre']['name']){
+						tbl += '<tr><td><b>Category</b></td><td>';
+						tbl += data['classifications'][0]['genre']['name'] + ' | '
+						tbl += data['classifications'][0]['segment']['name']
+						tbl +=  '</td></tr>'
+
+						console.log("setting artist flag");
+						console.log(data['classifications'][0]['segment']['name']);
+						if (data['classifications'][0]['segment']['name'] == 'Music'){
+							artistFlag = true;
+							var scope = angular.element(document.getElementById("body")).scope();
+							scope.flag = artistFlag;
+							scope.$apply();
+
+						}
+						else{
+							artistFlag = false;
+							var scope = angular.element(document.getElementById("body")).scope();
+							scope.flag = artistFlag;
+							scope.$apply();
+
+						}
+					}
+
+
+
+					if(data['priceRanges']){
+						y = data['priceRanges'][0]['min'];
+						tbl += '<tr><td><b>Price Range</b></td><td>';
+						var minPrice = data['priceRanges'][0]['min'];
+						var maxPrice = data['priceRanges'][0]['max'];
+						var minInd = minPrice.toString().split(".");
+						var maxInd = maxPrice.toString().split(".");
+						var price = '';
+						console.log(minInd);
+						if (minInd.length == 1) {
+							price = minInd[0] + ".00";
+						}
+						else if (minInd.length == 2) {
+							if (minInd[1].length == 1) {
+								console.log("here");
+								price = minInd[0] + "." + minInd[1] + "0";
+							}
+							if (minInd[1].length == 2) {
+								console.log("there");
+								price = minInd[0] + minInd[1];
+							}
+						}
+						price += " ~ ";
+						if (maxInd.length == 1) {
+							price += maxInd[0] + ".00";
+						}
+						else if (maxInd.length == 2) {
+							if (maxInd[1].length == 1) {
+								price += maxInd[0] + "." + maxInd[1] + "0";
+							}
+							if (maxInd[1].length == 2) {
+								price += maxInd[0] + maxInd[1];
+							}
+						}
+						console.log(price);
+						tbl += price + '</td></tr>';
+					}
+					else{
+						console.log("no price range");
+					}
+
+					if(data['dates']['status']['code']){
+						tbl += '<tr><td><b>Ticket Status</b></td><td>';
+						tbl += data['dates']['status']['code'];
+						tbl += '</td></tr>';
+					}
+
+					if(data['url']){
+						tbl += '<tr><td><b>Buy Ticket At</b></td><td>';
+						tbl += '<a href="' + data['url'] + '">Ticketmaster</a>';
+						tbl += '</td></tr>';
+					}
+
+
+					if(data['seatmap']){
+						if(data['seatmap']['staticUrl']) {
+							tbl += '<tr><td><b>Seat Map</b></td><td>';
+							// tbl += '<a href="' + tdata['events'][0]['seatmap']['staticUrl'] + '" target="_blank">View Seat Map Here</a>';
+
+							tbl += '<div class="container">';
+							tbl +=	'<a style="color: #1978f2;" data-toggle="modal" data-target="#popModal">View Seat Map Here</a>';
+
+							tbl +=	'<div class="modal fade" id="popModal" role="dialog" style="480px">';
+							tbl +=		'<div style="width:500px;" class="modal-dialog modal-lg modal-dialog-centered">';
+							tbl += 		'<div class="modal-content">';
+							tbl +=			'<div class="modal-header">';
+							tbl +=				'<h4 class="modal-title"><b>View Seat Map</b></h4>';
+							tbl +=				'<button type="button" class="close" data-dismiss="modal">&times;</button>';
+							tbl +=				'</div>';
+							tbl +=				'<div class="modal-body">';
+							tbl +=					'<a href="' + data['seatmap']['staticUrl'] +  '" target="_blank">';
+							tbl +=						'<img style="height:285px;" src="'+ data['seatmap']['staticUrl'] + '"></img>';
+							tbl +=					'</a>';
+							tbl +=				'</div>';
+							tbl +=				'<div class="modal-footer">';
+							tbl +=					'<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
+							tbl +=				'</div>';
+							tbl +=			'</div>';
+
+							tbl +=		'</div>';
+							tbl +=	'</div>';
+							tbl += '</div>';
+							tbl += '</td></tr>';
+						}
+					}
+
+
+
+					tbl += '</table>';
+					console.log("tbl");
+					//console.log(tbl);
+					console.log(typeof(tbl));
+					document.getElementById("event").innerHTML = tbl;
+					//document.getElementById("popEventDet").click();
+					document.getElementById("tabsandPills").style.display = 'block';
+
+				}
+			});
+			document.getElementById("popEventDet").click();
+
+		}
+
+
+
+		function makeMap(){
+			console.log("MakeMap");
+			console.log(lat);
+			console.log(lon);
+			var uluru = {lat: parseFloat(lat), lng: parseFloat(lon)};
+			// The map, centered at Uluru
+			map = new google.maps.Map(
+			document.getElementById('map'), {zoom: 8, center: uluru});
+			marker = new google.maps.Marker({position: uluru, map: map});
+
+			directionsDisplay = new google.maps.DirectionsRenderer({
+				map: map
+			});
+
+		}
+
+		var venueSearchName = '';
+		function populateVenue(upcomingFlag){
+			console.log("populateVenue");
+			console.log(venueName);
+
+			$.ajax({
+					url: 'http://csci571-env.w3n729ir4i.us-east-1.elasticbeanstalk.com/venueDetails?apikey=ycieqKxDYckllhDLJLzg6ddfaaHOWAQ0' + '&name=' + venueName,
+					type: "get",
+					dataType: "json",
+
+					success: function(data, textStatus, jqXHR) {
+						console.log(data);
+						venueSearchName = data['name'];
+						console.log(venueSearchName);
+						if (upcomingFlag){
+							var tbll = '';
+
+							tbll += '<select id="categorySelection" name="categorySelection" style="background: white; width: 200px; height: 30px;">';
+							tbll +=	'<option value="default" selected>Default</option>';
+							tbll +=	'<option value="event">Event Name</option>';
+							tbll +=	'<option value="time">Time</option>';
+							tbll +=	'<option value="artist">Artist</option>;'
+							tbll +=	'<option value="type">Type</option>';
+							tbll += '</select>';
+
+							tbll += '<select id="sortSelection" name="categorySelection" style="background: white; width: 200px; height: 30px;">';
+							tbll +=	'<option value="ascending" selected>Ascending</option>';
+							tbll +=	'<option value="descending">Descending</option>';
+							tbll += '</select>';
+
+							document.getElementById("sortDiv").innerHTML = tbll;
+							populateUpcomingEvents();
+						}
+						var tbl = '';
+						tbl += '<table class="table table-striped">';
+
+						if(data['address']){
+							tbl += '<tr><td><b>Address</b></td><td>';
+							tbl += data['address'];
+							tbl += '</td></tr>'
+						}
+
+						if(data['city']){
+							tbl += '<tr><td><b>City</b></td><td>';
+							tbl += data['city'];
+							tbl += '</td></tr>';
+						}
+
+						if(data['phone']){
+							tbl += '<tr><td><b>Phone Number</b></td><td>';
+							tbl += data['phone'];
+							tbl += '</td></tr>';
+						}
+
+						if(data['openHrs']){
+							tbl += '<tr><td><b>Open Hours</b></td><td>';
+							tbl += data['openHrs'];
+							tbl += '</td></tr>';
+						}
+
+						if(data['generalRule']){
+							tbl += '<tr><td><b>General Rule</b></td><td>';
+							tbl += data['generalRule'];
+							tbl += '</td></tr>';
+						}
+
+						if(data['chileRule']){
+							tbl += '<tr><td><b>Child Rule</b></td><td>';
+							tbl += data['chileRule'];
+							tbl += '</td></tr>';
+						}
+
+						tbl += '</table>';
+						tbl += '<div id="map" style="background-color:blue; width:100%; height:450px"></div>'
+
+
+
+						document.getElementById("venue").innerHTML = tbl;
+						makeMap();
+
+				}
+
+			});
+
+		}
+
+
+		function makeUpcomingTable(goodJSON){
+			document.getElementById("sortedDiv").innerHTML = "";
+			var tbl = '';
+			console.log("makeUpcomingTable");
+			var lt = goodJSON.length;
+			console.log(goodJSON.length);
+			if(lt>5){
+				tbl += '<div id="defaultItems">'
+				for (var i=0; i<5; i++){
+					tbl += '<div ng-model="myCards" class="card"  style="margin-top:10px">';
+					if(goodJSON['uri']){
+						tbl += '<div class="card-body"><a href="'+ goodJSON[i].uri + '"target=_blank">';
+						tbl += '<span style="color:#0f7af8; font-weight:bold;">' + goodJSON[i].displayName + '</span></a>';
+					}
+					else{
+						tbl += '<div class="card-body">';
+						tbl += '<span style="color:#0f7af8; font-weight:bold;">' + goodJSON[i].displayName + '</span>';
+					}
+
+					tbl += '<br><span style="color: #ff0000b8;">Artist: ';
+					tbl += goodJSON[i].artist + '</span>';
+					var newDate = goodJSON[i].crctDateTime;
+					tbl += '<span style="color: #000000c2;"> ' +  newDate + '</span>';
+					tbl += '<br><span style="color:black;">Type: ';
+					tbl +=  goodJSON[i].type + '</span>';
+					tbl += '</div>';
+					tbl += '</div>'
+				}
+				tbl += '</div>'
+				tbl += '<div id="moreItems" style="display:none">';
+				for (var i=5; i<lt; i++){
+					tbl += '<div ng-model="myCards" class="card"  style="margin-top:10px">';
+					tbl += '<div class="card-body"><a href="'+ goodJSON[i].uri + '"target=_blank">';
+					tbl += '<span style="color:#0f7af8; font-weight:bold;">' + goodJSON[i].displayName + '</span></a>';
+					tbl += '<br><span style="color: #ff0000b8;">Artist: ';
+					tbl += goodJSON[i].artist + '</span>';
+					var newDate = goodJSON[i].crctDateTime;
+					tbl += '<span style="color: #000000c2;"> ' +  newDate + '</span>';
+					tbl += '<br><span style="color:black;">Type: ';
+					tbl +=  goodJSON[i].type + '</span>';
+					tbl += '</div>';
+					tbl += '</div>'
+				}
+				tbl+= '</div>'
+				tbl += '<button id="upcominglt" ng-model="myCards" class="btn btn-primary">Show More</button>'
+
+			}
+			else{
+				tbl += '<div id="defaultItems">'
+				for (var i=0; i<lt; i++){
+					tbl += '<div ng-model="myCards" class="card"  style="margin-top:10px">';
+					if(goodJSON['uri']){
+						tbl += '<div class="card-body"><a href="'+ goodJSON[i].uri + '"target=_blank">';
+						tbl += '<span style="color:#0f7af8; font-weight:bold;">' + goodJSON[i].displayName + '</span></a>';
+					}
+					else{
+						tbl += '<div class="card-body">';
+						tbl += '<span style="color:#0f7af8; font-weight:bold;">' + goodJSON[i].displayName + '</span>';
+					}
+
+					tbl += '<br><span style="color: #ff0000b8;">Artist: ';
+					tbl += goodJSON[i].artist + '</span>';
+					var newDate = goodJSON[i].crctDateTime;
+					tbl += '<span style="color: #000000c2;"> ' +  newDate + '</span>';
+					tbl += '<br><span style="color:black;">Type: ';
+					tbl +=  goodJSON[i].type + '</span>';
+					tbl += '</div>';
+					tbl += '</div>'
+				}
+				tbl += '</div>'
+
+			}
+
+
+			document.getElementById("sortedDiv").innerHTML = tbl;
+		}
+
+		function fieldSorter(fields) {
+			return function (a, b) {
+				return fields
+			.map(function (o) {
+				var dir = 1;
+			if (o[0] === '-') {
+				dir = -1;
+				o=o.substring(1);
+				}
+				if (a[o] > b[o]) return dir;
+				if (a[o] < b[o]) return -(dir);
+				return 0;
+			})
+			.reduce(function firstNonZeroValue (p,n) {
+				return p ? p : n;
+			}, 0);
+			};
+		}
+
+		var lt = 5;
+		var eventData = '';
+		function getSongkickEvents(id, sort, category){
+			console.log("getSongkickEvents");
+
+			$.ajax({
+
+					url: 'http://csci571-env.w3n729ir4i.us-east-1.elasticbeanstalk.com/songkickVenueDetails?apikey=MVXHLPpRjhPAs2g5&id=' +id,
+					type: "get",
+					dataType: "json",
+
+					success: function(data, textStatus, jqXHR) {
+						console.log(data);
+
+						var goodJSON = [];
+						var event = data.resultsPage.results.event
+						for(var i=0; i< event.length; i++){
+							jsondic = {};
+							jsondic['displayName'] = event[i].displayName;
+							jsondic['uri'] = event[i].uri;
+							jsondic['artist'] = event[i].performance[0].displayName;
+							jsondic['time'] = event[i].start.time;
+							var dateList = event[i].start.date.split("-");
+							date = dateList[1] + "/" + dateList[2] + "/" + dateList[0];
+							var time = event[i].start.time;
+							var modDate = moment(date, "L").format("ll");
+							var newDate = modDate + " " + time;
+							jsondic['crctDateTime'] = newDate;
+							jsondic['type'] = event[i].type;
+							goodJSON[i] = jsondic
+						}
+						console.log("goodJSON");
+						console.log(goodJSON);
+
+						if(sort == null){
+							sort = "ascending";
+						}
+						if(category == null){
+							category = "event";
+						}
+						//TODO: change to bootstrap size
+						console.log(sort);
+						console.log(category);
+
+						if(sort == "ascending" && category=="event"){
+							goodJSON = goodJSON.sort(fieldSorter(["displayName"]));
+						}
+
+						if(sort == "ascending" && category=="artist"){
+							console.log("sorting by artust");
+							goodJSON = goodJSON.sort(fieldSorter(["artist"]));
+							console.log(goodJSON.sort(fieldSorter(["artist"])));
+						}
+						if(sort == "ascending" && category=="time"){
+							goodJSON = goodJSON.sort(fieldSorter(["time"]));
+						}
+						if(sort == "ascending" && category=="type"){
+							goodJSON = goodJSON.sort(fieldSorter(["type"]));
+						}
+						if(sort == "descending" && category=="event"){
+							goodJSON = goodJSON.sort(fieldSorter(["-displayName"]));
+						}
+						if(sort == "descending" && category=="event"){
+							goodJSON = goodJSON.sort(fieldSorter(["-artist"]));
+						}
+						if(sort == "descending" && category=="time"){
+							goodJSON = goodJSON.sort(fieldSorter(["-time"]));
+						}
+						if(sort == "descending" && category=="type"){
+							goodJSON = goodJSON.sort(fieldSorter(["-type"]));
+						}
+
+						console.log(goodJSON);
+						makeUpcomingTable(goodJSON);
+
+				}
+
+			});
+		}
+
+		$(document).on('click','#upcominglt',function(){
+			console.log("upcominglt");
+			if(document.getElementById("upcominglt").innerHTML == 'Show More'){
+				console.log("show more matched");
+				document.getElementById("moreItems").style.display = "block";
+				document.getElementById("upcominglt").innerHTML = 'Show Less';
+			}
+			else{
+				console.log("show less matched");
+				document.getElementById("moreItems").style.display = "none";
+				document.getElementById("upcominglt").innerHTML = 'Show More';
+			}
+		})
+		$(document).on('change','#sortSelection',function(){
+			console.log("sortSel");
+			var sort = $(this).val();
+			console.log(sort);
+			console.log($("#categorySelection").val());
+			populateUpcomingEvents(sort, $("#categorySelection").val());
+
+		})
+		$(document).on('change','#categorySelection',function(){
+			console.log("categSel");
+			var categSel  = $(this).val();
+			console.log(categSel);
+			console.log($("#sortSelection").val());
+			populateUpcomingEvents($("#sortSelection").val(), categSel);
+		})
+
+
+
+
+		function populateUpcomingEvents(sort=null, category=null){
+			console.log("populateUpcomingEvents");
+			console.log(venueSearchName);
+			if(venueSearchName == ''){
+				populateVenue();
+			}
+			$.ajax({
+
+					url: 'http://csci571-env.w3n729ir4i.us-east-1.elasticbeanstalk.com/songkickVenueID?apikey=MVXHLPpRjhPAs2g5&name=' +venueSearchName,
+					type: "get",
+					dataType: "json",
+
+					success: function(data, textStatus, jqXHR) {
+						console.log(data);
+						var id = data['id'];
+						console.log(id);
+						getSongkickEvents(id, sort, category);
+				}
+
+			});
+
+		}
+
+
+		var eventId = 0;
+		var venueName = '';
+		function getEventDetails(eventParams){
+			console.log("Get Event Details");
+			console.log(eventParams);
+			document.getElementById("details").disabled = false;
+			document.getElementById("displayDiv").innerHTML = '';
+			eventId = eventParams.split(',')[0];
+			venueName = eventParams.split(',')[1]
+			eventsName = eventParams.split(',')[2]
+			eventsName = eventsName.replace(/#/g," ");
+			var id = eventParams.split(',')[5];
+
+			var mostRecentdata = {type:"notfavEvent", data:eventParams, id:id};
+			console.log("set local storage with: ");
+			localStorage.setItem('mostRecentLink', JSON.stringify(mostRecentdata));
+			console.log(localStorage.getItem('mostRecentLink'));
+
+			console.log(eventId);
+			console.log(venueName);
+			document.getElementById("fillEventsName").innerHTML = eventsName;
+			//document.getElementById("firstTable").style.display = 'none';
+			populateEventDetails();
+		}
+
+		function setLocalStorage(setStorageString){
+
+			console.log("need to set localStorage");
+			console.log(setStorageString);
+			var data = {type:"favEvent",date:setStorageString.split(',')[0],event_name:setStorageString.split(',')[1],category:setStorageString.split(',')[2],venue:setStorageString.split(',')[3], eventId:setStorageString.split(',')[4]};
+			localStorage.setItem(setStorageString.split(',')[1], JSON.stringify(data));
+			//console.log(localStorage.getItem('starStorageList'));
+		}
+
+		function getEvent(submitFlag){
+			var scope = angular.element(document.getElementById("body")).scope();
+			scope.artistResponse = [];
+			scope.$apply();
+
+			document.getElementById("tabsandPills").style.display = 'none';
+
+			if(submitFlag){
+				localStorage.removeItem('mostRecentLink');
+			}
+
+			console.log("getEvent");
+			console.log(lat);
+			console.log(lon);
+			var keyword = keywordQuery;
+			keyword = keyword.replace(/ /g,"%20");
+			var radius = document.getElementById('distance').value;
+			var unit = document.getElementById('dist_units').value;
+			console.log(keyword + " " + radius + " " + unit);
+
+			if(document.getElementById('other_loc').checked){
+				console.log("inside");
+				var address = document.getElementById('other_loc_input').value;
+				address = address.replace(/ /g,"%20");;
+				console.log(address);
+				$.ajax({
+
+						url: 'http://csci571-env.w3n729ir4i.us-east-1.elasticbeanstalk.com/maps?address='  + address + '&apikey=AIzaSyDwF0qbAiBnIfYnzY7Rukw4tJHo23sIQIQ',
+						type: "get",
+						dataType: "json",
+
+						success: function(data, textStatus, jqXHR) {
+						console.log("got map details: ");
+						//console.log(data);
+						var autocompObj = data;
+						lat = data.results[0].geometry.location.lat;
+						lon = data.results[0].geometry.location.lng;
+						console.log(lat);
+						console.log(lon);
+
+					}
+
+				});
+
+			}
+
+			//document.getElementById("pb").style.display = "block";
+			$.ajax({
+					url: 'http://csci571-env.w3n729ir4i.us-east-1.elasticbeanstalk.com/events?apikey=ycieqKxDYckllhDLJLzg6ddfaaHOWAQ0' + '&keyword=' + keyword + '&radius=' + radius + '&unit=' + unit + '&lat=' + lat + '&lon=' + lon,
+					type: "get",
+					dataType: "json",
+
+					success: function(data, textStatus, jqXHR) {
+
+						var mostRecentLinkParams = '';
+						console.log(localStorage.getItem('mostRecentLink'));
+						if(localStorage.getItem('mostRecentLink') === null){
+							mostRecentLinkParams = '';
+						}
+						else{
+							mostRecentLinkParams = JSON.parse(localStorage.getItem('mostRecentLink')).data;
+						}
+
+						if(data['_embedded']){
+
+							var tdata = data['_embedded'];
+							console.log("got event details: ");
+							console.log(textStatus);
+							console.log(jqXHR);
+							var tbl = '';
+							tbl += '<div>'
+							if(submitFlag){
+								tbl += '<div class="text-center" style="margin-left:60%" disabled><button id="details" class="btn btn-light col-md-2" disabled>Details ></button></div>'
+							}
+							else{
+								tbl += '<div class="text-center" style="margin-left:60%" disabled><button id="details" class="btn btn-light col-md-2" onclick="showPB();getEventDetails(\''+mostRecentLinkParams+'\')" >Details ></button></div>'
+							}
+
+							tbl += '<table id="firstTable" border="1" align="center" style="border-left: 0px white; border-right: 0px white; border-bottom: 5px lightgrey; border-top: 5px lightgrey; border-collapse: collapse; margin-top:20px">';
+
+							//console.log(tdata);
+
+							tbl += '<tr><th>#</th><th style="font-style:normal;">Date</th><th style="font-style:normal;">Event</th><th style="font-style:normal;">Category</th><th style="font-style:normal;">Venue Info</th><th style="font-style:normal;">Favourite</th></tr>';
+							console.log(tdata['events'].length)
+							for (var i=0; i< tdata['events'].length; i++) {
+								var checkMostrecentLink = '';
+
+								if(localStorage.getItem('mostRecentLink') != null){
+									console.log(localStorage.getItem('mostRecentLink'));
+									console.log(JSON.parse(localStorage.getItem('mostRecentLink')).data);
+									console.log(JSON.parse(localStorage.getItem('mostRecentLink')).data.split(',')[2])
+									checkMostrecentLink = JSON.parse(localStorage.getItem('mostRecentLink')).id;
+									//checkMostrecentLink = checkMostrecentLink.replace(/#/g," ");
+									console.log(checkMostrecentLink)
+								}
+
+								//TODO oooooooooooooooooooooooooooooooooO
+								console.log("checkMostrecentLink ");
+								console.log(checkMostrecentLink);
+								console.log(typeof(checkMostrecentLink));
+								if(checkMostrecentLink == i.toString()){
+									tbl += '<tr style="background:#ff7f505c">';
+								}
+								else{
+									tbl += '<tr>';
+								}
+
+								tbl += '<td>'
+								tbl += (i+1).toString();
+								tbl += '</td>'
+
+								tbl += '<td style="width:115px; padding: 10px; align=center; font-style:normal;">';
+								tbl += tdata['events'][i]['dates']['start']['localDate'];
+								tbl += '</td>'
+
+								console.log(tdata['events'][i]['name']);
+								console.log(tdata['events'][i]['name'].length);
+								var date = tdata['events'][i]['dates']['start']['localDate'];
+								var eventId = tdata['events'][i]['id'];
+								var venueName = tdata['events'][i]['_embedded']['venues'][0]['name'];
+								var eventsName = tdata['events'][i]['name'];
+								var category = tdata['events'][i]['classifications'][0]['genre']['name'] + '-' + tdata['events'][i]['classifications'][0]['segment']['name'];
+								var id = i;
+								var flag = false;
+								venueName = venueName.replace(/ /g,"%20");
+								eventsName = eventsName.replace(/ /g,"#");
+								tooltip_text = tdata['events'][i]['name'];
+								console.log("tooltip");
+								console.log(tooltip_text);
+								console.log(eventsName);
+								tbl += '<td ng-controller="DemoCtrl as ctrl"  style="padding: 15px; font-style:normal;"><a href="#" rel="tooltip" class="venueLink" ng-click="goto(1)" data-toggle="tooltip" title="'+ tdata['events'][i]['name'] + '" onclick=getEventDetails("'+eventId+','+ venueName +','+eventsName+','+category+','+ date+','+id+','+false+'")>';
+								var dispEvent = '';
+								if(tooltip_text.length >= 35){
+									console.log("inside");
+									var ind = tooltip_text.indexOf(" ", 30);
+									console.log(ind);
+									dispEvent = tooltip_text.slice(0, ind);
+									dispEvent += ' ...'
+									console.log(dispEvent);
+									tbl += dispEvent;
+
+								}
+								else{
+									tbl += tooltip_text;
+								}
+
+								tbl += '</a></td>';
+								tbl += '<td style="width:215px; padding: 15px; font-style:normal;">';
+								tbl += tdata['events'][i]['classifications'][0]['genre']['name'];
+								tbl +=  '-' + tdata['events'][i]['classifications'][0]['segment']['name'];
+								tbl += '</td>';
+
+
+								var destlat = tdata['events'][i]['_embedded']['venues'][0]['location']['latitude'];
+								var destlon = tdata['events'][i]['_embedded']['venues'][0]['location']['longitude'];
+								tbl += '<td id="venue' + i + '"style="padding: 15px; font-style:normal;" >';
+								tbl += tdata['events'][i]['_embedded']['venues'][0]['name'];
+								tbl += '</td>';
+
+								var setStorageString =  tdata['events'][i]['dates']['start']['localDate']+','+tdata['events'][i]['name']+','+category+','+tdata['events'][i]['_embedded']['venues'][0]['name'] +',' + tdata['events'][i]['id'];
+
+								if (localStorage.getItem(tdata['events'][i]['name']) === null) {
+									console.log("not in favs");
+									tbl += '<td style= "padding: 10px; align=center;"><button><i class="material-icons" id="star" onclick="setLocalStorage(\''+setStorageString+'\')">star_border</i></button></td>';
+								}
+								else {
+									tbl += '<td style= "padding: 10px; align=center;"><button><i class="material-icons" style="color:yellow">star</i></button></td>';
+								}
+
+								tbl += '</tr>';
+
+							}
+
+							tbl += '</table>';
+							tbl += '</div>'
+							//document.getElementById("pb").style.display = "none";
+							document.getElementById("displayDiv").innerHTML = tbl;
+
+						}
+						else{
+							console.log("no search records");
+							var tbl='';
+							tbl += '<span style="height: 30px; margin-top: 55px; margin-left:20%; margin-right:20%; background: #f617073d; color: #5c1f0a;" class="row justify-content-center col-md-8">Failed to get search results.</span>';
+							//document.getElementById("pb").style.display = "none";
+							document.getElementById("displayDiv").innerHTML = tbl;
+						}
+
+					}
+
+			});
+		}
+
+		$(document).on('click','#star',function(event){
+			console.log("Starring");
+			event.target.innerHTML = "star";
+			event.target.style.color = "yellow";
+		})
+
+
+	</script>
+
+	</body>
+</html>
