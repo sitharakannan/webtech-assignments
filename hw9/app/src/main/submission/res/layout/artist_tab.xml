@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/artistLayout">
+
+
+    <TextView
+        android:id="@+id/artistHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="162dp"
+        android:layout_marginLeft="162dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="155dp"
+        android:layout_marginRight="155dp"
+        android:text="TextView"
+        android:visibility="gone"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/artistTable"
+        android:visibility="gone">
+
+
+        <TextView
+            android:id="@+id/artistName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/followers"
+            android:layout_alignLeft="@id/followers"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:text="Name"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+
+        <TextView
+            android:id="@+id/artistNameVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/followersVal"
+            android:layout_alignLeft="@id/followersVal"
+            android:layout_alignTop="@+id/artistName"
+            android:layout_marginTop="0dp"
+            android:text="TextView"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/followers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="29dp"
+            android:layout_marginLeft="29dp"
+            android:layout_marginTop="30dp"
+            android:text="Followers"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+
+        <TextView
+            android:id="@+id/followersVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/followers"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="150dp"
+            android:layout_marginLeft="150dp"
+            android:text="TextView"
+            android:textSize="16sp"/>
+
+
+        <TextView
+            android:id="@+id/popularity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/followers"
+            android:layout_alignLeft="@id/followers"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="50dp"
+            android:text="Popularity"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/popularityVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/followersVal"
+            android:layout_alignLeft="@+id/followersVal"
+            android:layout_alignBottom="@+id/popularity"
+            android:text="TextView"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/checkat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/followers"
+            android:layout_alignLeft="@id/followers"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="70dp"
+            android:text="Check At"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/checkatVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/followersVal"
+            android:layout_alignLeft="@id/followersVal"
+            android:layout_alignTop="@+id/checkat"
+            android:text="TextView"
+            android:textSize="16sp"/>
+
+
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/artistImg"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher_background"/>
+
+    </LinearLayout>
+
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity = "center"
+        android:visibility="gone" />
+
+
+</LinearLayout>

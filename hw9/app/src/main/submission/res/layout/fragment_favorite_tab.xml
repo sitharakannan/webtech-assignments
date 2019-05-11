@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/faveventLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/faveventImg"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_launcher_background"/>
+
+    <TextView
+        android:id="@+id/faveventText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Checking"
+        android:layout_toRightOf="@id/faveventImg"
+        android:layout_marginLeft="25sp"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/favvenueText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/faveventText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginBottom="-15dp"
+        android:layout_toRightOf="@id/faveventImg"
+        android:text="Checking again"
+        android:textColor="#000"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/favdateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/faveventText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginBottom="-30dp"
+        android:layout_toRightOf="@id/faveventImg"
+        android:text="Checking again"
+        android:textColor="#000"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/favfavImg"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="14dp"
+        android:layout_marginRight="14dp"
+        android:src="@drawable/heart_fill_red" />
+
+</RelativeLayout>

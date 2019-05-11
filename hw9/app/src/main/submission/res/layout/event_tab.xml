@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<RelativeLayout
+    android:id="@+id/eventResults"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+    android:id="@+id/artist"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    android:layout_marginStart="29dp"
+    android:layout_marginLeft="29dp"
+    android:layout_marginTop="30dp"
+    android:text="Artist/Team(s)"
+    android:textSize="16sp"
+    android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/artistVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/artist"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="150dp"
+        android:layout_marginLeft="150dp"
+        android:text="TextView"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/venue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/artist"
+        android:layout_alignLeft="@+id/artist"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="70dp"
+        android:text="Venue"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/venueVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/artistVal"
+        android:layout_alignLeft="@id/artistVal"
+        android:layout_alignTop="@+id/venue"
+        android:text="TextView"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/artist"
+        android:layout_alignLeft="@id/artist"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="110dp"
+        android:text="Time"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/timeVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/artistVal"
+        android:layout_alignLeft="@+id/artistVal"
+        android:layout_alignBottom="@+id/time"
+        android:text="TextView"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/artist"
+        android:layout_alignLeft="@id/artist"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="150dp"
+        android:text="Category"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/categoryVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/artistVal"
+        android:layout_alignLeft="@id/artistVal"
+        android:layout_alignTop="@+id/category"
+        android:text="TextView"
+        android:textSize="16sp"/>
+
+    <!--<TextView-->
+        <!--android:id="@+id/priceRange"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignStart="@+id/artist"-->
+        <!--android:layout_alignLeft="@id/artist"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginStart="2dp"-->
+        <!--android:layout_marginLeft="2dp"-->
+        <!--android:layout_marginTop="190dp"-->
+        <!--android:text="Price Range"-->
+        <!--android:textSize="16sp"-->
+        <!--android:textStyle="bold"-->
+        <!--android:visibility="visible"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/priceRangeVal"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignStart="@+id/artistVal"-->
+        <!--android:layout_alignLeft="@id/artistVal"-->
+        <!--android:layout_alignTop="@+id/priceRange"-->
+        <!--android:text="TextView"-->
+        <!--android:textSize="16sp"-->
+        <!--android:visibility="visible"/>-->
+
+
+    <TextView
+        android:id="@+id/ticketStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/artist"
+        android:layout_alignLeft="@id/artist"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="190dp"
+        android:text="Ticket Status"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/ticketStatusVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ticketStatus"
+        android:layout_alignStart="@+id/artistVal"
+        android:layout_alignLeft="@id/artistVal"
+        android:text="TextView"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/buyTicket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/artist"
+        android:layout_alignLeft="@id/artist"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="230dp"
+        android:text="Buy Ticket At"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/buyTicketVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/artistVal"
+        android:layout_alignLeft="@id/artistVal"
+        android:layout_alignTop="@+id/buyTicket"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/seatmap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/artist"
+        android:layout_alignLeft="@id/artist"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="270dp"
+        android:text="SeatMap"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/seatmapVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/artistVal"
+        android:layout_alignLeft="@id/artistVal"
+        android:layout_alignBottom="@+id/seatmap"
+        android:text="TextView"
+        android:textSize="16sp"/>
+
+</RelativeLayout>
+    <LinearLayout
+        android:id="@+id/eventNoResults"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity = "center"
+        android:visibility="gone" />
+    </LinearLayout>
+
+</RelativeLayout>
+
+
