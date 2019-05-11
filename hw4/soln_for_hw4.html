@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <h4 style="text-align:center; margin-top:100px;">Enter URL for Container Shipping Companies List JSON file</h4>
+    </head>
+    <body>
+
+        <div style="text-align: center; line-height: 3.0;">
+            <input type="text" id="url" value="containerlist.json"><br>
+            <button onclick="retrieveURL()">Submit Query</button>
+        </div>
+
+        <!-- <div id = "data_table"></div> -->
+
+        <script type="text/javascript">
+            function retrieveURL() {
+                var url_val = document.getElementById("url").value;
+                loadJSON(url_val);
+            };
+
+            function loadJSON(url, jsonFlag) {
+                var xmlhttp=new XMLHttpRequest();
+                xmlhttp.open("GET",url,false); //open, send, responseText are
+                xmlhttp.send(); //properties of XMLHTTPRequest
+                console.log(xmlhttp.responseText);
+
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                    //text box is empty
+                    if(document.getElementById("url").value.length == 0)
+                    {
+                        alert("No input!")
+                    }
+                    else {
+
+                        //Set up table, json obj
+                        jsonDoc = xmlhttp.responseText;
+                        var myObj = JSON.parse(jsonDoc);
+                        var tdata = myObj['Mainline']['Table'];
+                        console.log(tdata);
+
+                        //no data in json file
+                        if(Object.keys(tdata).length == 1)
+                        {
+                            localStorage.setItem('fetchedJson', false);
+                            alert("No Data in JSON file!")
+                        }
+                        else {
+                            var popup_win = window.open("", "blank", "width=1420, height=1200");
+                            var tbl = '<table border="1" style="width:100%;">';
+
+                            //Add headers
+                            tbl += '<tr>';
+                            for (val in tdata['Header']['Data']) {
+                                console.log("reading headers");
+                                tbl += '<th>';
+                                tbl += tdata['Header']['Data'][val];
+                                tbl += '</th>'
+                            }
+
+                            console.log(tdata['Row'].length);
+
+                            //Add rows
+                            for(val in tdata['Row']) {
+                                tbl += '<tr>';
+                                console.log("tdata['Row']"+tdata['Row']);
+
+                                for(key in tdata['Row'][val]) {
+                                    console.log("key:"+key);
+                                    //Handling Hubs
+                                    if(key == "Hubs") {
+                                        tbl += '<td style="width:18%;">';
+
+                                        tbl += '<ul>';
+                                        for(hub in tdata['Row'][val][key]) {
+                                            console.log("hub: "+tdata['Row'][val][key][hub]);
+                                            var index = 0;
+                                            for(ind_hub in tdata['Row'][val][key][hub]) {
+                                                console.log("ind_hub: "+tdata['Row'][val][key][hub][ind_hub])
+                                                tbl += '<li>'
+                                                if(index == 0) {
+                                                    tbl += '<b>';
+                                                    tbl += tdata['Row'][val][key][hub][ind_hub];
+                                                    tbl += '</b>';
+                                                    index += 1;
+                                                }
+                                                else{
+                                                    tbl += tdata['Row'][val][key][hub][ind_hub];
+                                                }
+                                                tbl += '</li>'
+
+                                            }
+                                            tbl += '</ul>'
+                                        }
+                                        tbl += '</td>'
+                                    }
+                                    //Handling Images
+                                    else if(key == "Logo"){
+                                        if (tdata['Row'][val][key].length == 0){
+                                            tbl += '<td align="center" style="">';
+                                            tbl += '</td>';
+                                        }
+                                        else{
+                                            tbl += '<td align="center" style="">';
+                                            tbl += '<img src="';
+                                            tbl += tdata['Row'][val][key];
+                                            tbl += '"style="width:350">';
+                                            tbl += '</img>';
+                                            tbl += '</td>';
+                                        }
+                                    }
+                                    //Handling links
+                                    else if(key == "HomePage") {
+                                        tbl += '<td style="width:10%;">'
+                                        tbl += '<a href="'
+                                        tbl += tdata['Row'][val][key]
+                                        tbl += '">'
+                                        tbl += tdata['Row'][val][key]
+                                        tbl += '</a>'
+                                        tbl += '</td>'
+
+                                    }
+                                    //Handling Remaining Fields
+                                    else{
+                                        console.log(tdata['Row'][val][key]);
+                                        tbl += '<td style="width:5%">'
+                                        tbl += tdata['Row'][val][key];
+                                        tbl += '</td>';
+
+                                    }
+                                }
+                            }
+
+                            console.log("FINALLY");
+                            console.log(tbl);
+                            popup_win.document.write(tbl);
+                        }
+                    }
+                }
+                else{
+                    alert("File does not Exist!");
+                }
+
+            };
+
+        </script>
+    </body>
+</html>
